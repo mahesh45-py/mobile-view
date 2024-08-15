@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Viewer</title>
+    <style>
+        /* Center the phone image */
+        .centered {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Style for the phone image */
+        .phone-container {
+            width: 375px;
+            height: 700px;
+            /* Aspect ratio of a common mobile device (iPhone X) */
+            position: relative;
+        }
+
+        /* Style for the phone image background */
+        .phone-background {
+            background: url(./phone.png) no-repeat center center;
+            background-size: contain;
+            width: 121%;
+            height: 108%;
+            position: absolute;
+            top: -28px;
+            left: -41px;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Style for the iframe inside the phone */
+        .phone-container iframe {
+            width: 82%;
+            height: 88%;
+            position: absolute;
+            top: 7%;
+            left: 9%;
+            border: none;
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+            /* Enables smooth scrolling */
+            touch-action: manipulation;
+            /* Allow full touch interaction */
+            z-index: 0;
+            /* Ensure the iframe is behind the phone image */
+            border-radius: 25px;
+        }
+
+        /* Ensure the body does not scroll */
+        body {
+            overflow: hidden;
+            background-image: url('./bg.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        body, iframe {
+            font-size: 0.8em; /* adjust the value to your liking */
+        }
+    </style>
+</head>
+
+<body>
+
+    
+    <script>
+        // Function to detect mobile devices
+        function isMobileDevice() {
+            return /Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/.test(navigator.userAgent);
+        }
+        var url = new URL(window.location.href);
+
+        // Extract the value of the 'ws' query parameter
+        var ws = url.searchParams.get('q');
+        // Redirect or show phone based on device type
+        if (isMobileDevice()) {
+            window.location.href = ws;
+        } else {
+            document.body.innerHTML = `
+                <div class="centered">
+                    <div class="phone-container">
+                        <div class="phone-background"></div>
+                        <iframe src="${ws}" style="font-size: 0.8em;"></iframe>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+
+</html>
